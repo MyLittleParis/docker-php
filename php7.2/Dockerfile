@@ -5,15 +5,15 @@ FROM php:${php_version}-fpm
 RUN apt-get update && \
     apt-get install -y \
     zlib1g-dev libicu-dev g++ libpng.dev libcurl4-gnutls-dev librtmp-dev git \
-    libmcrypt-dev libxml++2.6-dev libc-client-dev libkrb5-dev \
+    libmcrypt-dev libxml++2.6-dev libc-client-dev libkrb5-dev npm \
     && \
     docker-php-ext-install \
     intl gd curl json mbstring opcache pdo xml zip pdo_mysql \
     && \
     docker-php-ext-configure imap --with-imap-ssl --with-kerberos && \
     docker-php-ext-install imap \
-    && \
-    sync
+    && npm install -g less \
+    && npm install -g --allow-root bower
 
 # Install composer and set alias for easier use
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
