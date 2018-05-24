@@ -1,15 +1,17 @@
-ARG php_version=5.6
-FROM php:${php_version}-fpm
+ARG php_version=7.0
+ARG os_version=stretch
+FROM php:${php_version}-fpm-${os_version}
 
 # install extension dependencies and install dep
 RUN apt-get update \
     && apt-get install -y \
-         zlib1g-dev libicu-dev g++ libpng.dev libcurl4-gnutls-dev librtmp-dev git \
-         libmcrypt-dev libxml++2.6-dev libc-client-dev libkrb5-dev npm \
+      zlib1g-dev libicu-dev g++ libpng.dev libcurl4-gnutls-dev librtmp-dev git \
+      libmcrypt-dev libxml++2.6-dev libc-client-dev libkrb5-dev \
+       curl software-properties-common gnupg
     && ln -s /usr/bin/nodejs /usr/bin/node \
     && docker-php-ext-configure imap --with-imap-ssl --with-kerberos \
     && docker-php-ext-install intl gd curl json mbstring mcrypt opcache pdo xml zip pdo_mysql imap \
-    && echo 'date.timezone = "Europe/Paris"' > /usr/local/etc/php/php.ini
+    && echo 'date.timezone = "Europe/Paris"' >> /usr/local/etc/php/php.ini
 
 # Install composer and set alias for easier use
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
@@ -17,9 +19,10 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php --install-dir=/usr/local/bin/ --filename=composer \
     && php -r "unlink('composer-setup.php');"
 
-# Install php packages
-RUN npm install -g less \
-    && npm install -g bower
+# Install node and npm
+RUN curl -sL https://deb.nodesource.com/setup_7.x | bash - \
+    && apt-get install nodejs \
+    && npm install -g less bower
 
 # Remove useless packages
 RUN apt-get autoclean -y \

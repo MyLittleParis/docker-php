@@ -1,5 +1,6 @@
-ARG php_version=7.0
-FROM php:${php_version}-fpm
+ARG php_version=7.1
+ARG os_version=jessie
+FROM php:${php_version}-fpm-${os_version}
 
 # install extension dependencies and install dep
 RUN apt-get update \
