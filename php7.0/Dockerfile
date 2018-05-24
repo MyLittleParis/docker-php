@@ -9,14 +9,17 @@ RUN apt-get update \
     && ln -s /usr/bin/nodejs /usr/bin/node \
     && docker-php-ext-configure imap --with-imap-ssl --with-kerberos \
     && docker-php-ext-install intl gd curl json mbstring mcrypt opcache pdo xml zip pdo_mysql imap \
-    && npm install -g less \
-    && npm install -g --allow-root bower
+    && echo 'date.timezone = "Europe/Paris"' > /usr/local/etc/php/php.ini
 
 # Install composer and set alias for easier use
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
     && php composer-setup.php --install-dir=/usr/local/bin/ --filename=composer \
     && php -r "unlink('composer-setup.php');"
+
+# Install php packages
+RUN npm install -g less \
+    && npm install -g --allow-root bower
 
 # Remove useless packages
 RUN apt-get autoclean -y \
