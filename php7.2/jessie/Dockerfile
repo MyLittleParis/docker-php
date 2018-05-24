@@ -1,4 +1,4 @@
-ARG php_version=7.1
+ARG php_version=7.2
 ARG os_version=jessie
 FROM php:${php_version}-fpm-${os_version}
 
