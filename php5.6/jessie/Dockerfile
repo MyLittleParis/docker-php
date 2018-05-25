@@ -3,7 +3,7 @@ ARG os_version=jessie
 FROM php:${php_version}-fpm-${os_version}
 
 # install extension dependencies and install dep
-RUN apt-get update \
+RUN rm /etc/apt/preferences.d/no-debian-php && apt-get update \
     && apt-get install -y \
       zlib1g-dev libicu-dev g++ libpng.dev libcurl4-gnutls-dev librtmp-dev git \
       libmcrypt-dev libxml++2.6-dev libc-client-dev libkrb5-dev npm php-soap \
