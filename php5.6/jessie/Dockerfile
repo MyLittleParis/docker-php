@@ -6,10 +6,10 @@ FROM php:${php_version}-fpm-${os_version}
 RUN apt-get update \
     && apt-get install -y \
       zlib1g-dev libicu-dev g++ libpng.dev libcurl4-gnutls-dev librtmp-dev git \
-      libmcrypt-dev libxml++2.6-dev libc-client-dev libkrb5-dev npm \
+      libmcrypt-dev libxml++2.6-dev libc-client-dev libkrb5-dev npm php-soap \
     && ln -s /usr/bin/nodejs /usr/bin/node \
     && docker-php-ext-configure imap --with-imap-ssl --with-kerberos \
-    && docker-php-ext-install intl gd curl json mbstring mcrypt opcache pdo xml zip pdo_mysql imap \
+    && docker-php-ext-install intl gd curl json mbstring mcrypt opcache pdo xml zip pdo_mysql imap soap \
     && echo 'date.timezone = "Europe/Paris"' > /usr/local/etc/php/php.ini
 
 # Install composer and set alias for easier use
