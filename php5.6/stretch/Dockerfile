@@ -14,7 +14,8 @@ RUN apt-get update \
     && docker-php-ext-configure imap --with-imap-ssl --with-kerberos \
     && docker-php-ext-configure gd --with-gd --with-freetype --with-png --with-zlib --with-jpeg \
     && docker-php-ext-install intl gd curl json mbstring mcrypt opcache pdo xml zip pdo_mysql imap bcmath \
-    && echo 'date.timezone = "Europe/Paris"' >> /usr/local/etc/php/php.ini
+    && echo 'date.timezone = "Europe/Paris"' >> /usr/local/etc/php/php.ini \
+    && echo 'memory_limit = -1' >> /usr/local/etc/php/php.ini
 
 # Install composer and set alias for easier use
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
