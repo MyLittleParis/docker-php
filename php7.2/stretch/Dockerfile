@@ -6,10 +6,13 @@ FROM php:${php_version}-fpm-${os_version}
 RUN apt-get update \
     && apt-get install -y \
       zlib1g-dev libicu-dev g++ libpng.dev libcurl4-gnutls-dev librtmp-dev git \
-      libmcrypt-dev libxml++2.6-dev libc-client-dev libkrb5-dev \
+      libmcrypt-dev libxml++2.6-dev libc-client-dev libkrb5-dev libmagickwand-dev \
       curl software-properties-common gnupg \
     && ln -s /usr/bin/nodejs /usr/bin/node \
+    && pecl install imagick \
+    && docker-php-ext-enable imagick \
     && docker-php-ext-configure imap --with-imap-ssl --with-kerberos \
+    && docker-php-ext-configure gd --with-gd --with-freetype --with-png --with-zlib --with-jpeg \
     && docker-php-ext-install intl gd curl json mbstring opcache pdo xml zip pdo_mysql imap bcmath \
     && echo 'date.timezone = "Europe/Paris"' >> /usr/local/etc/php/php.ini
 
