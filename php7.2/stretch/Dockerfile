@@ -9,10 +9,10 @@ RUN apt-get update \
       libmcrypt-dev libxml++2.6-dev libc-client-dev libkrb5-dev libmagickwand-dev \
       curl software-properties-common gnupg \
     && ln -s /usr/bin/nodejs /usr/bin/node \
-    && pecl install imagick \
-    && docker-php-ext-enable imagick \
+    && pecl install imagick apcu \
+    && docker-php-ext-enable imagick apcu \
     && docker-php-ext-configure imap --with-imap-ssl --with-kerberos \
-    && docker-php-ext-configure gd --with-gd --with-freetype --with-png --with-zlib --with-jpeg \
+    && docker-php-ext-configure gd --with-gd --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ --with-freetype-dir=/usr/include/ \
     && docker-php-ext-install intl gd curl json mbstring opcache pdo xml zip pdo_mysql imap bcmath \
     && echo 'date.timezone = "Europe/Paris"' >> /usr/local/etc/php/php.ini \
     && echo 'memory_limit = -1' >> /usr/local/etc/php/php.ini
