@@ -12,7 +12,7 @@ RUN apt-get update \
     && docker-php-ext-enable imagick apcu \
     && docker-php-ext-configure imap --with-imap-ssl --with-kerberos \
     && docker-php-ext-configure gd --with-gd --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ --with-freetype-dir=/usr/include/ \
-    && docker-php-ext-install intl gd curl json mbstring mcrypt opcache pdo xml zip pdo_mysql imap bcmath \
+    && docker-php-ext-install intl gd curl json mbstring mcrypt opcache pdo xml zip pdo_mysql imap bcmath soap \
     && echo 'date.timezone = "Europe/Paris"' > /usr/local/etc/php/php.ini \
     && echo 'memory_limit = -1' >> /usr/local/etc/php/php.ini
 
