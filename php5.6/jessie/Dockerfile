@@ -21,8 +21,7 @@ RUN set -ex \
     ; apt-get update \
     ; curl -o nodejs.deb https://deb.nodesource.com/node_8.x/pool/main/n/nodejs/nodejs_8.10.0-1nodesource1_amd64.deb \
     ; dpkg -i ./nodejs.deb \
-    ; rm nodejs.deb \
-    ; rm -rf /var/lib/apt/lists/*
+    ; rm nodejs.deb
 
 # Install composer and set alias for easier use
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
