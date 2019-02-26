@@ -6,7 +6,7 @@ FROM php:${php_version}-fpm-${os_version}
 RUN apt-get update \
     && apt-get install -y \
       zlib1g-dev libicu-dev g++ libpng.dev libcurl4-gnutls-dev libmagickwand-dev librtmp-dev git \
-      libmcrypt-dev libxml++2.6-dev libc-client-dev libkrb5-dev \
+      libmcrypt-dev libxml++2.6-dev libc-client-dev libkrb5-dev python-minimal \
       curl software-properties-common gnupg \
     && ln -s /usr/bin/nodejs /usr/bin/node \
     && pecl install imagick apcu-4.0.11 \
@@ -22,9 +22,12 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php --install-dir=/usr/local/bin/ --filename=composer \
     && php -r "unlink('composer-setup.php');"
 
-# Install node and npm
-RUN curl -sL https://deb.nodesource.com/setup_7.x | bash - \
-    && apt-get install nodejs \
+# Install node8.10 and npm
+RUN set -ex \
+    ; apt-get update \
+    ; curl -o nodejs.deb https://deb.nodesource.com/node_8.x/pool/main/n/nodejs/nodejs_8.10.0-1nodesource1_amd64.deb \
+    ; dpkg -i ./nodejs.deb \
+    ; rm nodejs.deb \
     && npm install -g less bower
 
 # Remove useless packages

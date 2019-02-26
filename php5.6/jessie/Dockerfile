@@ -2,11 +2,11 @@ ARG php_version=5.6
 ARG os_version=jessie
 FROM php:${php_version}-fpm-${os_version}
 
-# install extension dependencies and install dep
+# Install extension dependencies and install dep
 RUN rm /etc/apt/preferences.d/no-debian-php && apt-get update \
     && apt-get install -y \
       zlib1g-dev libicu-dev g++ libpng.dev libcurl4-gnutls-dev libmagickwand-dev librtmp-dev git \
-      libmcrypt-dev libxml++2.6-dev libc-client-dev libkrb5-dev npm php-soap php5-apcu \
+      libmcrypt-dev libxml++2.6-dev libc-client-dev libkrb5-dev php-soap php5-apcu \
     && ln -s /usr/bin/nodejs /usr/bin/node \
     && pecl install imagick apcu-4.0.11 \
     && docker-php-ext-enable imagick apcu \
@@ -15,6 +15,13 @@ RUN rm /etc/apt/preferences.d/no-debian-php && apt-get update \
     && docker-php-ext-install intl gd curl json mbstring mcrypt opcache pdo xml zip pdo_mysql imap soap bcmath \
     && echo 'date.timezone = "Europe/Paris"' > /usr/local/etc/php/php.ini \
     && echo 'memory_limit = -1' >> /usr/local/etc/php/php.ini
+
+# Install node8.10 and npm
+RUN set -ex \
+    ; apt-get update \
+    ; curl -o nodejs.deb https://deb.nodesource.com/node_8.x/pool/main/n/nodejs/nodejs_8.10.0-1nodesource1_amd64.deb \
+    ; dpkg -i ./nodejs.deb \
+    ; rm nodejs.deb
 
 # Install composer and set alias for easier use
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
