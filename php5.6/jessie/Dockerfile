@@ -2,6 +2,8 @@ ARG php_version=5.6
 ARG os_version=jessie
 FROM php:${php_version}-fpm-${os_version}
 
+ENV NPM_CONFIG_PREFIX=/usr/local
+
 # Install extension dependencies and install dep
 RUN rm /etc/apt/preferences.d/no-debian-php && apt-get update \
     && apt-get install -y \

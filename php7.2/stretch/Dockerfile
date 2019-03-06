@@ -2,6 +2,8 @@ ARG php_version=7.2
 ARG os_version=stretch
 FROM php:${php_version}-fpm-${os_version}
 
+ENV NPM_CONFIG_PREFIX=/usr/local
+
 # install extension dependencies and install dep
 RUN apt-get update \
     && apt-get install -y \
