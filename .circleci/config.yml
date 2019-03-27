@@ -4,7 +4,7 @@ jobs:
    machine: true
    steps:
      - checkout
-     - run: docker build -t test php5.4/jessie/Dockerfile
+     - run: docker build -t test php5.4/jessie
 
 workflows:
   version: 2
