@@ -4,6 +4,12 @@ FROM php:${php_version}-fpm-${os_version}
 
 ENV NPM_CONFIG_PREFIX=/usr/local
 
+# patch source list for jessie
+RUN echo "deb http://deb.debian.org/debian/ jessie main contrib non-free \n\
+          deb-src http://deb.debian.org/debian/ jessie main contrib non-free \n\
+          deb http://security.debian.org/ jessie/updates main contrib non-free \n\
+          deb-src http://security.debian.org/ jessie/updates main contrib non-free" > /etc/apt/sources.list
+
 # install extension dependencies and install dep
 RUN apt-get update \
     && apt-get install -y \
