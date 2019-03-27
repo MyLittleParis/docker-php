@@ -1,0 +1,16 @@
+version: 2
+jobs:
+ build:
+   machine: true
+   steps:
+     - checkout
+     - run: docker build -t test php5.4/jessie/Dockerfile
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+        filters:
+          branches:
+            only:
+              - feat/BuildOnCircle
